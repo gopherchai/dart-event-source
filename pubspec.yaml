@@ -6,6 +6,6 @@ author: Renée Kooi <renee@kooi.me>
 homepage: https://github.com/goto-bus-stop/dart-event-source
 
 environment:
-  sdk: ">=2.0.0 <3.0.0"
-dev_dependencies:
-  test: any
+  sdk: ">3.0.0"
+dependencies:
+  test: ^1.24.3
