@@ -116,8 +116,6 @@ class EventSource {
         request.headers.set(key, value);
       });
     }
-    // request.headers.set('X-TOKEN',
-    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkwMjU3MDUsImlhdCI6MTY4NzQwMzMwNSwic3ViIjoie1widXNlcklkXCI6MTAwMjg1MyxcInVzZXJSb2xlXCI6MCxcImF1dGhEYXRlXCI6XCIyMDIzLTA2LTIyVDExOjA4OjI1Ljc2MDY2NjU1OSswODowMFwifSJ9.nNRdgNO2VnVoWax1fMBZCfcqaoQxmap9DKusJYk_uyQ");
     request.headers.set('Accept', _MIME_TYPE);
     if (_lastEventID != null) {
       request.headers.set('Last-Event-ID', _lastEventID!);
