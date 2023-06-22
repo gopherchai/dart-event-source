@@ -1,4 +1,5 @@
 import 'dart:io';
+//import 'dart:js_interop';
 import 'package:test/test.dart';
 import 'package:w3c_event_source/event_source.dart';
 
@@ -35,9 +36,24 @@ void main() {
       '',
     ];
 
-    final source = EventSource(url!);
+    final source = EventSource(
+      Uri.parse('http://mygpt.a8g.fun/v1/api/event/32639'),
+      headers: Map.from({
+        'X-TOKEN':
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkwMjU3MDUsImlhdCI6MTY4NzQwMzMwNSwic3ViIjoie1widXNlcklkXCI6MTAwMjg1MyxcInVzZXJSb2xlXCI6MCxcImF1dGhEYXRlXCI6XCIyMDIzLTA2LTIyVDExOjA4OjI1Ljc2MDY2NjU1OSswODowMFwifSJ9.nNRdgNO2VnVoWax1fMBZCfcqaoQxmap9DKusJYk_uyQ"
+      }),
+    );
+
+    // source.events.asBroadcastStream(
+    //     onListen: (subscription) => {
+    //           subscription.onData((data) {
+    //             print('data is:$data');
+    //           })
+    //         },
+    //     onCancel: null);
     final message = await source.events.first;
     expect(message.data, equals(data));
+    source.close();
     expect(source.readyState, equals(EventSource.CLOSED));
   });
 

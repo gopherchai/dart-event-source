@@ -1,5 +1,6 @@
 import 'dart:async' show Future, Stream, StreamController, Timer;
 import 'dart:convert' show LineSplitter, utf8;
+//import 'dart:html';
 import 'dart:io' show HttpClient, HttpStatus;
 import 'dart:math' show Random;
 
@@ -62,6 +63,8 @@ class EventSource {
   /// The data value for the current block.
   String? _nextData;
 
+  Map<String, String>? headers;
+
   /// The function used to create HttpClient when connecting.
   HttpClientFactory? clientFactory;
 
@@ -77,6 +80,7 @@ class EventSource {
   /// Create an EventSource for a given remote URL.
   EventSource(this.url,
       {this.clientFactory,
+      this.headers,
       this.initialReconnectDelay = const Duration(seconds: 1),
       this.maxReconnectDelay = const Duration(minutes: 1)}) {
     if (clientFactory == null) {
@@ -107,6 +111,13 @@ class EventSource {
     _client = clientFactory!();
 
     final request = await _client!.getUrl(url);
+    if (headers != null) {
+      headers!.forEach((key, value) {
+        request.headers.set(key, value);
+      });
+    }
+    // request.headers.set('X-TOKEN',
+    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkwMjU3MDUsImlhdCI6MTY4NzQwMzMwNSwic3ViIjoie1widXNlcklkXCI6MTAwMjg1MyxcInVzZXJSb2xlXCI6MCxcImF1dGhEYXRlXCI6XCIyMDIzLTA2LTIyVDExOjA4OjI1Ljc2MDY2NjU1OSswODowMFwifSJ9.nNRdgNO2VnVoWax1fMBZCfcqaoQxmap9DKusJYk_uyQ");
     request.headers.set('Accept', _MIME_TYPE);
     if (_lastEventID != null) {
       request.headers.set('Last-Event-ID', _lastEventID!);
